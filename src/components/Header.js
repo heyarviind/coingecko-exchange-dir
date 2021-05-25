@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <HeaderContainer className="h-24">
-      {location.pathname != "/" ? (
+      {location.pathname !== "/" ? (
         <span className="w-20">
           <BackButton onClick={() => window.history.back()}>
             <svg

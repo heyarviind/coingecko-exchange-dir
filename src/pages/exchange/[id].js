@@ -11,19 +11,19 @@ export default function Index({ params }) {
   const [gettingDetails, setGettingDetails] = React.useState(true);
 
   React.useEffect(() => {
-    getExchange();
-  }, []);
+    const getExchange = () => {
+      setGettingDetails(true);
+      fetch(`https://api.coingecko.com/api/v3/exchanges/${params.id}`)
+        .then((response) => {
+          setGettingDetails(false);
+          return response.json();
+        })
+        .then((exchange) => setExchange(exchange))
+        .catch((err) => err);
+    };
 
-  const getExchange = () => {
-    setGettingDetails(true);
-    fetch(`https://api.coingecko.com/api/v3/exchanges/${params.id}`)
-      .then((response) => {
-        setGettingDetails(false);
-        return response.json();
-      })
-      .then((exchange) => setExchange(exchange))
-      .catch((err) => err);
-  };
+    getExchange();
+  }, [params.id]);
 
   return (
     <Layout>
@@ -40,7 +40,7 @@ export default function Index({ params }) {
           <div className="flex-1">
             <h3 className="text-gray-500 uppercase text-sm">Description</h3>
 
-            {exchange && exchange.description != "" ? (
+            {exchange && exchange.description !== "" ? (
               <div
                 dangerouslySetInnerHTML={{ __html: exchange.description }}
                 className="mt-2 flex-1"
@@ -66,25 +66,31 @@ export default function Index({ params }) {
 
             {exchange.telegram_url && (
               <SocialLink href={exchange.telegram_url} target="_blank">
-                <img src="/static/img/social/telegram.png" />
+                <img
+                  alt="telegram icon"
+                  src="/static/img/social/telegram.png"
+                />
               </SocialLink>
             )}
 
             {exchange.slack_url && (
               <SocialLink href={exchange.slack_url} target="_blank">
-                <img src="/static/img/social/slack.png" />
+                <img alt="salck icon" src="/static/img/social/slack.png" />
               </SocialLink>
             )}
 
             {exchange.reddit_url && (
               <SocialLink href={exchange.reddit_url} target="_blank">
-                <img src="/static/img/social/reddit.png" />
+                <img alt="reddit icon" src="/static/img/social/reddit.png" />
               </SocialLink>
             )}
 
             {exchange.facebook_url && (
               <SocialLink href={exchange.facebook_url} target="_blank">
-                <img src="/static/img/social/facebook.png" />
+                <img
+                  alt="facebook icon"
+                  src="/static/img/social/facebook.png"
+                />
               </SocialLink>
             )}
           </div>

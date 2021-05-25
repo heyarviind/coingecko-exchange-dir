@@ -10,27 +10,25 @@ import { useQueryParam, NumberParam } from "use-query-params";
 export default function Index() {
   const [exchanges, setExchanges] = React.useState([]);
   const [loadingExchanges, setLoadingExchanges] = React.useState(true);
-  const [page, setCurrentPage] = useQueryParam("page", NumberParam);
+  const [page = 1, setCurrentPage] = useQueryParam("page", NumberParam);
   const perPage = 10;
 
   React.useEffect(() => {
+    const getExchanges = () => {
+      setLoadingExchanges(true);
+      fetch(
+        `https://api.coingecko.com/api/v3/exchanges?per_page=${perPage}&page=${page}`
+      )
+        .then((response) => {
+          setLoadingExchanges(false);
+          return response.json();
+        })
+        .then((exchanges) => setExchanges(exchanges))
+        .catch((err) => err);
+    };
+
     getExchanges();
-
-    if (!page) setCurrentPage(1);
   }, [page]);
-
-  const getExchanges = () => {
-    setLoadingExchanges(true);
-    fetch(
-      `https://api.coingecko.com/api/v3/exchanges?per_page=${perPage}&page=${page}`
-    )
-      .then((response) => {
-        setLoadingExchanges(false);
-        return response.json();
-      })
-      .then((exchanges) => setExchanges(exchanges))
-      .catch((err) => err);
-  };
 
   const nextPage = () => {
     setCurrentPage(page + 1);
@@ -47,7 +45,7 @@ export default function Index() {
   return (
     <Layout>
       {/* if it is the first time loading exchanges, we will show skeleton ExchangeRow */}
-      {exchanges.length == 0 &&
+      {exchanges.length === 0 &&
         loadingExchanges &&
         Array.from(Array(10), (e, i) => (
           <ExchangeRowSekeltonLoader key={`skeleton-${i}`} />
