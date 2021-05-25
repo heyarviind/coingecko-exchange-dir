@@ -6,6 +6,11 @@ import {
 } from "../../components";
 import tw from "tailwind-styled-components";
 
+import TelegramIcon from "../../images/social/telegram.png";
+import SlackIcon from "../../images/social/slack.png";
+import RedditIcon from "../../images/social/reddit.png";
+import FacebookIcon from "../../images/social/facebook.png";
+
 export default function Index({ params }) {
   const [exchange, setExchange] = React.useState({});
   const [gettingDetails, setGettingDetails] = React.useState(true);
@@ -66,31 +71,25 @@ export default function Index({ params }) {
 
             {exchange.telegram_url && (
               <SocialLink href={exchange.telegram_url} target="_blank">
-                <img
-                  alt="telegram icon"
-                  src="/static/img/social/telegram.png"
-                />
+                <img alt="telegram icon" src={TelegramIcon} />
               </SocialLink>
             )}
 
             {exchange.slack_url && (
               <SocialLink href={exchange.slack_url} target="_blank">
-                <img alt="salck icon" src="/static/img/social/slack.png" />
+                <img alt="salck icon" src={SlackIcon} />
               </SocialLink>
             )}
 
             {exchange.reddit_url && (
               <SocialLink href={exchange.reddit_url} target="_blank">
-                <img alt="reddit icon" src="/static/img/social/reddit.png" />
+                <img alt="reddit icon" src={RedditIcon} />
               </SocialLink>
             )}
 
             {exchange.facebook_url && (
               <SocialLink href={exchange.facebook_url} target="_blank">
-                <img
-                  alt="facebook icon"
-                  src="/static/img/social/facebook.png"
-                />
+                <img alt="facebook icon" src={FacebookIcon} />
               </SocialLink>
             )}
           </div>
