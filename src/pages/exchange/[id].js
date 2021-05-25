@@ -1,17 +1,26 @@
 import * as React from "react";
-import { Layout, ExchangeRow } from "../../components";
+import {
+  Layout,
+  ExchangeRow,
+  ExchangeRowSekeltonLoader,
+} from "../../components";
 import tw from "tailwind-styled-components";
 
 export default function Index({ params }) {
   const [exchange, setExchange] = React.useState({});
+  const [gettingDetails, setGettingDetails] = React.useState(true);
 
   React.useEffect(() => {
     getExchange();
   }, []);
 
   const getExchange = () => {
+    setGettingDetails(true);
     fetch(`https://api.coingecko.com/api/v3/exchanges/${params.id}`)
-      .then((response) => response.json())
+      .then((response) => {
+        setGettingDetails(false);
+        return response.json();
+      })
       .then((exchange) => setExchange(exchange))
       .catch((err) => err);
   };
@@ -19,59 +28,68 @@ export default function Index({ params }) {
   return (
     <Layout>
       <section className="">
-        <ExchangeRow data={exchange} />
+        {gettingDetails ? (
+          <ExchangeRowSekeltonLoader />
+        ) : (
+          <ExchangeRow data={exchange} noninteractive={1} />
+        )}
       </section>
 
-      <section className="mt-6 flex flex-col md:flex-row">
-        <div className="flex-1">
-          <h3 className="text-gray-500 uppercase text-sm">Description</h3>
+      {exchange.name && (
+        <section className="mt-6 flex flex-col md:flex-row">
+          <div className="flex-1">
+            <h3 className="text-gray-500 uppercase text-sm">Description</h3>
 
-          {exchange && exchange.description != "" ? (
-            <div
-              dangerouslySetInnerHTML={{ __html: exchange.description }}
-              className="mt-2 flex-1"
-            ></div>
-          ) : (
-            <div className="p-10 text-center text-gray-400 flex items-center justify-center flex-1">
-              No Description Found
-            </div>
-          )}
-        </div>
+            {exchange && exchange.description != "" ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: exchange.description }}
+                className="mt-2 flex-1"
+              ></div>
+            ) : (
+              <div className="p-10 text-center text-gray-400 flex items-center justify-center flex-1">
+                No Description Found
+              </div>
+            )}
+          </div>
 
-        <div className="w-full md:w-52 md:border-l md:px-5 mt-10 md:mt-0">
-          <h3 className="text-gray-500 uppercase text-sm mb-6">More Info</h3>
+          <div className="w-full md:w-52 md:border-l md:px-5 mt-10 md:mt-0">
+            <h3 className="text-gray-500 uppercase text-sm mb-6">More Info</h3>
 
-          <InfoRow title="Established In" value={exchange.year_established} />
-          <InfoRow title="Trust Score" value={exchange.trust_score} />
-          <InfoRow title="Trust Score Rank" value={exchange.trust_score_rank} />
+            <InfoRow title="Established In" value={exchange.year_established} />
+            <InfoRow title="Trust Score" value={exchange.trust_score} />
+            <InfoRow
+              title="Trust Score Rank"
+              value={exchange.trust_score_rank}
+            />
 
-          <br></br>
+            <br></br>
 
-          {exchange.telegram_url && (
-            <SocialLink href={exchange.telegram_url} target="_blank">
-              <img src="/static/img/social/telegram.png" />
-            </SocialLink>
-          )}
+            {exchange.telegram_url && (
+              <SocialLink href={exchange.telegram_url} target="_blank">
+                <img src="/static/img/social/telegram.png" />
+              </SocialLink>
+            )}
 
-          {exchange.slack_url && (
-            <SocialLink href={exchange.slack_url} target="_blank">
-              <img src="/static/img/social/slack.png" />
-            </SocialLink>
-          )}
+            {exchange.slack_url && (
+              <SocialLink href={exchange.slack_url} target="_blank">
+                <img src="/static/img/social/slack.png" />
+              </SocialLink>
+            )}
 
-          {exchange.reddit_url && (
-            <SocialLink href={exchange.reddit_url} target="_blank">
-              <img src="/static/img/social/reddit.png" />
-            </SocialLink>
-          )}
+            {exchange.reddit_url && (
+              <SocialLink href={exchange.reddit_url} target="_blank">
+                <img src="/static/img/social/reddit.png" />
+              </SocialLink>
+            )}
 
-          {exchange.facebook_url && (
-            <SocialLink href={exchange.facebook_url} target="_blank">
-              <img src="/static/img/social/facebook.png" />
-            </SocialLink>
-          )}
-        </div>
-      </section>
+            {exchange.facebook_url && (
+              <SocialLink href={exchange.facebook_url} target="_blank">
+                <img src="/static/img/social/facebook.png" />
+              </SocialLink>
+            )}
+          </div>
+        </section>
+      )}
     </Layout>
   );
 }

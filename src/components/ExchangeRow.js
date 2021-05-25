@@ -3,11 +3,12 @@ import tw from "tailwind-styled-components";
 import { Link } from "gatsby";
 import { Button } from "./";
 
-export default function ExchangeRow({ data }) {
-  const { id, name, country, url, image, trust_score_rank } = data;
+export default function ExchangeRow(props) {
+  const { id, name, country, url, image, trust_score_rank } = props.data;
+  const { noninteractive } = props;
 
   return (
-    <Row to={`/exchange/${id}`}>
+    <Row {...props}>
       <div>
         <img
           src={image}
@@ -54,15 +55,19 @@ export default function ExchangeRow({ data }) {
           </span>
         </Info>
 
-        <Link to={`/exchange/${id}`} className="sm:hidden mt-2 inline-block">
-          <Button>View Details</Button>
-        </Link>
+        {!noninteractive && (
+          <Link to={`/exchange/${id}`} className="sm:hidden mt-2 inline-block">
+            <Button>View Details</Button>
+          </Link>
+        )}
       </div>
-      <div className="hidden sm:block">
-        <Link to={`/exchange/${id}`}>
-          <Button>View Details</Button>
-        </Link>
-      </div>
+      {!noninteractive && (
+        <div className="hidden sm:block">
+          <Link to={`/exchange/${id}`}>
+            <Button>View Details</Button>
+          </Link>
+        </div>
+      )}
     </Row>
   );
 }
@@ -79,7 +84,7 @@ export const Row = tw.div`
   ease-in-out
   shadow-sm
 
-  hover:shadow-lg
+  ${(props) => (props.noninteractive ? "" : "hover:shadow-lg")}
 `;
 
 export const Name = tw.a`
