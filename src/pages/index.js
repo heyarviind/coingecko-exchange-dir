@@ -30,12 +30,15 @@ export default function Index() {
     getExchanges();
   }, [page]);
 
+  // increment page number and scroll to top
   const nextPage = () => {
     setCurrentPage(page + 1);
     window.scrollTo(0, 0);
   };
 
+  // decrement page number and scroll to top
   const previousPage = () => {
+    // only go to previous page if current page is equal or greater than 2
     if (page >= 2) {
       setCurrentPage(page - 1);
       window.scrollTo(0, 0);

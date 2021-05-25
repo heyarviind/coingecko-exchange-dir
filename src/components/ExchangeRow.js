@@ -5,6 +5,10 @@ import { Button } from "./";
 
 export default function ExchangeRow(props) {
   const { id, name, country, url, image, trust_score_rank } = props.data;
+  // noninteractive is used to disable intractive things in the component
+  // just like shadow-lg on hover
+  // this is done because i have used same component in index.js as well as in
+  // /src/exchange/[id].js
   const { noninteractive } = props;
 
   return (
