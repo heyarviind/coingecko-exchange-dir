@@ -1,6 +1,6 @@
 # 🪙 Coingecko Exchange directory
 
-This project uses coingecko api to get the exchanges and their details, and deployed on (Netlify)[https://hardcore-austin-0259bb.netlify.app/]
+This project uses coingecko api to get the exchanges and their details, and deployed on [Netlify](https://hardcore-austin-0259bb.netlify.app/)
 
 ## Project Stack
 
