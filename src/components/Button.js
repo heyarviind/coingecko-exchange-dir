@@ -2,7 +2,11 @@ import * as React from "react";
 import tw from "tailwind-styled-components";
 
 export default function Button({ children, onClick }) {
-  return <StyledButton onClick={() => onClick()}>{children}</StyledButton>;
+  return (
+    <StyledButton onClick={onClick ? () => onClick() : null}>
+      {children}
+    </StyledButton>
+  );
 }
 
 const StyledButton = tw.button`
