@@ -6,8 +6,8 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <HeaderContainer className="">
-      {location.pathname != "/" && (
+    <HeaderContainer className="h-24">
+      {location.pathname != "/" ? (
         <span className="w-20">
           <BackButton onClick={() => window.history.back()}>
             <svg
@@ -24,8 +24,12 @@ export default function Header() {
             </svg>
           </BackButton>
         </span>
+      ) : (
+        <span className="w-20"></span>
       )}
-      <span className="text-center text-3xl text-italic flex-1">Exchanges</span>
+      <span className="text-center text-xl md:text-2xl text-italic flex-1">
+        Exchanges
+      </span>
       <span className="w-20"></span>
     </HeaderContainer>
   );
@@ -33,7 +37,8 @@ export default function Header() {
 
 const HeaderContainer = tw.header`
   flex
-  py-10
+  items-center
+
 `;
 
 const BackButton = tw.span`

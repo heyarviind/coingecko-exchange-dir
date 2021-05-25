@@ -14,5 +14,5 @@ export default function Layout({ children }) {
 const Container = tw.div`
   container
   mx-auto
-  my-4
+  md:my-4
 `;

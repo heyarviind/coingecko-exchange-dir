@@ -22,21 +22,23 @@ export default function Index({ params }) {
         <ExchangeRow data={exchange} />
       </section>
 
-      <section className="mt-6 flex">
-        <h3 className="text-gray-500 uppercase text-sm">Description</h3>
+      <section className="mt-6 flex flex-col md:flex-row">
+        <div className="flex-1">
+          <h3 className="text-gray-500 uppercase text-sm">Description</h3>
 
-        {exchange && exchange.description != "" ? (
-          <div
-            dangerouslySetInnerHTML={{ __html: exchange.description }}
-            className="mt-2 flex-1"
-          ></div>
-        ) : (
-          <div className="p-10 text-center text-gray-400 flex items-center justify-center flex-1">
-            No Description Found
-          </div>
-        )}
+          {exchange && exchange.description != "" ? (
+            <div
+              dangerouslySetInnerHTML={{ __html: exchange.description }}
+              className="mt-2 flex-1"
+            ></div>
+          ) : (
+            <div className="p-10 text-center text-gray-400 flex items-center justify-center flex-1">
+              No Description Found
+            </div>
+          )}
+        </div>
 
-        <div className="w-72 border-l px-5">
+        <div className="w-full md:w-52 md:border-l md:px-5 mt-10 md:mt-0">
           <h3 className="text-gray-500 uppercase text-sm mb-6">More Info</h3>
 
           <InfoRow title="Established In" value={exchange.year_established} />
